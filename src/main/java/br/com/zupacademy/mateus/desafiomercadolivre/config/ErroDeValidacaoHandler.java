@@ -1,5 +1,7 @@
 package br.com.zupacademy.mateus.desafiomercadolivre.config;
 
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import br.com.zupacademy.mateus.desafiomercadolivre.exception.CategoriaMaeNaoEncontradaException;
 
 @RestControllerAdvice
 public class ErroDeValidacaoHandler {
@@ -57,6 +62,14 @@ public class ErroDeValidacaoHandler {
     
     private String getErrorMessage(ObjectError error) {
         return messageSource.getMessage(error, LocaleContextHolder.getLocale());
+    }
+    
+    @ResponseStatus(value= NOT_FOUND)
+    @ExceptionHandler(CategoriaMaeNaoEncontradaException.class)
+    public @ResponseBody ErroDeValidacaoSaidaDto handleException(CategoriaMaeNaoEncontradaException e) {
+    	ErroDeValidacaoSaidaDto validationErrors = new ErroDeValidacaoSaidaDto();
+    	validationErrors.addError(e.getMessage());
+    	 return validationErrors;
     }
     
 }
