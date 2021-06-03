@@ -2,6 +2,8 @@ package br.com.zupacademy.mateus.desafiomercadolivre.config.security;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -53,5 +55,6 @@ public class TokenManager {
 		
 		return claims.getSubject();
 	}
-
+	
+	
 }
